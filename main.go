@@ -12,6 +12,7 @@ import (
 var (
 	params = os.Getenv("PARAMS")
 	hostname = os.Getenv("HOSTNAME")
+	port = os.Getenv("PORT")
 )
 
 func validateHostname() {
@@ -22,7 +23,7 @@ func validateHostname() {
 	if err != nil {
 		log.Fatal("Hostname is invalid")
 	}
-	log.Printf("Hostname is %s\n", hostname)
+	log.Printf("Redirecting to %s\n", hostname)
 }
 
 func extendQueryParams(req *http.Request) {
@@ -64,8 +65,11 @@ func handleRequest(res http.ResponseWriter, req *http.Request) {
 }
 
 func runProxy() {
+	if port == "" {
+		port = "8080"
+	}
 	http.HandleFunc("/", handleRequest)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(":" + port, nil))
 }
 
 func main() {

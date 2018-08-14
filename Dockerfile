@@ -5,4 +5,6 @@ COPY . .
 
 RUN go install -v ./...
 
+ENV PORT=8080
+
 CMD ["app"]
