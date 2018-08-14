@@ -15,9 +15,12 @@ var (
 	port = os.Getenv("PORT")
 )
 
-func validateHostname() {
+func validateConfiguration() {
 	if hostname == "" {
 		log.Fatal("Hostname is required")
+	}
+	if port  == "" {
+		log.Fatal("Port number is missing")
 	}
 	_, err := url.ParseRequestURI(hostname) // doesn't provide an absolute validation.
 	if err != nil {
@@ -65,14 +68,11 @@ func handleRequest(res http.ResponseWriter, req *http.Request) {
 }
 
 func runProxy() {
-	if port == "" {
-		port = "8080"
-	}
 	http.HandleFunc("/", handleRequest)
 	log.Fatal(http.ListenAndServe(":" + port, nil))
 }
 
 func main() {
-	validateHostname()
+	validateConfiguration()
 	runProxy()
 }
