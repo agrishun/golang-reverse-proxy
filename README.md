@@ -15,7 +15,11 @@ docker build -t reverse-proxy .
 
 After that you can run the server
 ```
-docker run -e HOSTNAME='https://petstore.swagger.io/v2/' -e PORT=8080  -e PARAMS='{"status":"sold"}' -p 4000:8080 reverse-proxy
+docker run \
+-e HOSTNAME='https://petstore.swagger.io/v2/' \
+-e PARAMS='{"status":"sold"}' \
+-e PORT=8080 \
+-p 4000:8080 reverse-proxy
 ```
 
 You can test the proxy by running the following command
